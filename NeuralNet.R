@@ -15,9 +15,10 @@ trainy <- dummy_cols(trainy)
 trainy <- trainy[,-c(1)]
 trainy <- trainy[c("X1_0", "X1_1","X1_2","X1_3","X1_4","X1_5","X1_6","X1_7","X1_8","X1_9")]
 trainy <- trainy %>% rename(y0 = X1_0, y1 = X1_1, y2 = X1_2, y3 = X1_3, y4 = X1_4, y5 = X1_5, y6 = X1_6, y7 = X1_7, y8 = X1_8, y9 = X1_9)
-### Reduce the training set size to reduce run time
-trainx <- trainx[c(1:5000),]
-trainy <- trainy[c(1:5000),]
+
+# ### Reduce the training set size to reduce run time
+# trainx <- trainx[c(1:5000),]
+# trainy <- trainy[c(1:5000),]
 
 # Define the sigmoid function as an activation function
 sigmoid <- function(x){
@@ -156,9 +157,14 @@ train <- function(x, y, hidden1=100, hidden2=10, learnrate=0.03, iteration=2000)
   list(output = ff$yhat, w1 = w1, w2 = w2, w3 = w3)
 }
 
-x <- as.matrix(trainx[c(1:100),])
-y <- as.matrix(trainy[c(1:100),])
+x <- as.matrix(trainx[c(1:200),])
+y <- as.matrix(trainy[c(1:200),])
 nnet <- train(x,y)
 
+# Test the data
 actualy <- apply(y,1, which.max)-1
 actualyhat <- apply(nnet$output,1, which.max)-1
+
+testy <- apply(trainy[c(101:200),],1, which.max)-1
+testyhat <- apply(feedforward(as.matrix(trainx[c(101:200),]),nnet$w1,nnet$w2,nnet$w3)$yhat,1,which.max)-1
+accuracy <- sum(testy-testyhat == 0)/nrow(as.matrix(testy))
