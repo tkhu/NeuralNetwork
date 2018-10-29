@@ -99,6 +99,7 @@ The following assumptions were input in the training process:
 * 200 rows of training set (limited due to lack of computing power)
 * Learning rate of 0.03
 * 2,000 iteration
+
 After the training session, the algorithm is able to correctly guess 69/100 rows of testing data.
 I also did another run with 100 rows of training set, and the accuracy was less than 60%.
 I suspect that with larger training set, the algorithm will be more accurate.
